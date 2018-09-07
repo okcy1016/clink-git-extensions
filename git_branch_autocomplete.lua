@@ -23,7 +23,7 @@ function is_checkout_ac(text)
 end
 
 function get_branches()
-  local handle = io.popen("git branch -r 2>&1")
+  local handle = io.popen("git branch -a 2>&1")
   local result = handle:read("*a")
   handle:close()
 
@@ -31,7 +31,7 @@ function get_branches()
 
   if string.starts(result, "fatal") == false then
     for branch in string.gmatch(result, "  %S+") do
-      branch = string.gsub(branch, "  origin%/", "")
+      branch = string.gsub(branch, "  ", "")
 
       if branch ~= "HEAD" then
         table.insert(branches, branch)
