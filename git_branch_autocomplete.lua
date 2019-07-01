@@ -8,8 +8,8 @@ function string.ends(str, _end)
   return string.sub(str, string.len(str) - string.len(_end) + 1) == _end
 end
 
-function is_checkout_ac(text)
-  if string.starts(text, "git checkout") then
+function is_checkout_or_branch_ac(text)
+  if string.starts(text, "git checkout") or string.starts(text, "git branch") then
     return true
   end
 
@@ -45,7 +45,7 @@ end
 function git_branch_autocomplete(text, first, last)
   local matchCount = 0
 
-  if is_checkout_ac(rl_state.line_buffer) then
+  if is_checkout_or_branch_ac(rl_state.line_buffer) then
     local branches = get_branches()
 
     for i, branch in ipairs(branches) do
@@ -59,7 +59,6 @@ function git_branch_autocomplete(text, first, last)
 
   return matchCount > 0
 end
-
 
 
 local handle = io.popen("git config --get-regex alias")
